@@ -77,7 +77,7 @@ export function App() {
 
     if (editingTransaction) {
       const updatedTransactions = transactions.map((transaction) =>
-        transaction.id === editingTransaction.id ? newTransaction : transaction
+        transaction.id === editingTransaction.id ? newTransaction : transaction,
       );
 
       setTransactions(updatedTransactions);
@@ -90,7 +90,7 @@ export function App() {
 
   function deleteTransaction(id) {
     const updatedTransactions = transactions.filter(
-      (transaction) => transaction.id !== id
+      (transaction) => transaction.id !== id,
     );
 
     setTransactions(updatedTransactions);
@@ -100,7 +100,7 @@ export function App() {
     const totalExpenses = transactions
       .filter(
         (transaction) =>
-          transaction.type === "expense" || transaction.type === "bill"
+          transaction.type === "expense" || transaction.type === "bill",
       )
       .reduce((total, transaction) => total + transaction.amount, 0);
 
@@ -122,6 +122,7 @@ export function App() {
     };
   }, [transactions]);
 
+  // Filtrare tranzactii in functie de tip
   const filteredTransactions = useMemo(() => {
     return transactions.filter((transaction) => {
       const matchesFilter =
@@ -181,7 +182,8 @@ export function App() {
                   <h3 className="text-xl font-semibold text-white">
                     Activitate Recenta
                   </h3>
-
+                  
+                  {/* Filter Buttons - butoane de filtrare */}
                   <div className="flex gap-2 flex-wrap">
                     <FilterButton
                       active={filterType === "all"}

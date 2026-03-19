@@ -4,14 +4,13 @@ export function Header({ searchTerm, setSearchTerm, onAddClick }) {
   return (
     <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
       <div>
-        <h2 className="text-2xl md:text-3xl font-bold text-white">
-          Salutare!
-        </h2>
+        <h2 className="text-2xl md:text-3xl font-bold text-white">Salutare!</h2>
         <p className="text-gray-400">
           Vizualizeaza situatia ta financiara in timp real.
         </p>
       </div>
 
+      {/* Search - cautare tranzactii */}
       <div className="flex items-center gap-3 w-full sm:w-auto">
         <div className="relative flex-1 sm:flex-none">
           <Search
