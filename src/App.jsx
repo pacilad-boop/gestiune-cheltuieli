@@ -24,6 +24,7 @@ export function App() {
   const [activeTab, setActiveTab] = useState("Dashboard");
   const [filterType, setFilterType] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
+  const [sortOption, setSortOption] = useState("date_desc");
 
   const [formData, setFormData] = useState({
     description: "",
@@ -124,7 +125,7 @@ export function App() {
 
   // Filtrare tranzactii in functie de tip
   const filteredTransactions = useMemo(() => {
-    return transactions.filter((transaction) => {
+    const filtered = transactions.filter((transaction) => {
       const matchesFilter =
         filterType === "all" || transaction.type === filterType;
 
@@ -134,7 +135,25 @@ export function App() {
 
       return matchesFilter && matchesSearch;
     });
-  }, [transactions, filterType, searchTerm]);
+
+    console.log("sortOption:", sortOption);
+    const sorted = [...filtered].sort((a, b) => {
+      switch (sortOption) {
+        case "amount_asc":
+          return a.amount - b.amount;
+        case "amount_desc":
+          return b.amount - a.amount;
+        case "date_asc":
+          return new Date(a.date) - new Date(b.date);
+        case "date_desc":
+          return new Date(b.date) - new Date(a.date);
+        default:
+          return 0;
+      }
+    });
+
+    return sorted;
+  }, [transactions, filterType, searchTerm, sortOption]);
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-[#0a0c10] text-gray-100 font-sans">
@@ -182,29 +201,42 @@ export function App() {
                   <h3 className="text-xl font-semibold text-white">
                     Activitate Recenta
                   </h3>
-                  
+
                   {/* Filter Buttons - butoane de filtrare */}
-                  <div className="flex gap-2 flex-wrap">
-                    <FilterButton
-                      active={filterType === "all"}
-                      onClick={() => setFilterType("all")}
-                      label="Toate"
-                    />
-                    <FilterButton
-                      active={filterType === "expense"}
-                      onClick={() => setFilterType("expense")}
-                      label="Cheltuieli"
-                    />
-                    <FilterButton
-                      active={filterType === "bill"}
-                      onClick={() => setFilterType("bill")}
-                      label="Facturi"
-                    />
-                    <FilterButton
-                      active={filterType === "deposit"}
-                      onClick={() => setFilterType("deposit")}
-                      label="Depozite"
-                    />
+                  <div className="flex flex-col sm:flex-row gap-3 sm:imtems-center">
+                    <div className="flex gap-2 flex-wrap">
+                      <FilterButton
+                        active={filterType === "all"}
+                        onClick={() => setFilterType("all")}
+                        label="Toate"
+                      />
+                      <FilterButton
+                        active={filterType === "expense"}
+                        onClick={() => setFilterType("expense")}
+                        label="Cheltuieli"
+                      />
+                      <FilterButton
+                        active={filterType === "bill"}
+                        onClick={() => setFilterType("bill")}
+                        label="Facturi"
+                      />
+                      <FilterButton
+                        active={filterType === "deposit"}
+                        onClick={() => setFilterType("deposit")}
+                        label="Depozite"
+                      />
+                    </div>
+                    <select
+                      value={sortOption}
+                      onChange={(e) => {console.log("Selected sort option:", sortOption); setSortOption(e.target.value)}}
+                      
+                      className="bg-gray-900 border border-gray-800 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full sm:w-auto px-3 py-2"
+                    >
+                      <option value="date_desc">Cele mai noi</option>
+                      <option value="date_asc">Cele mai vechi</option>
+                      <option value="amount_desc">Suma descrescatoare</option>
+                      <option value="amount_asc">Suma crescatoare</option>
+                    </select>
                   </div>
                 </div>
 
