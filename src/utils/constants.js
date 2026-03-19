@@ -1,10 +1,10 @@
 export const CATEGORIES = [
-  "Mâncare & Băutură", 
-  "Locuință", 
+  "Mancare & Bautura", 
+  "Locuinta", 
   "Transport", 
-  "Sănătate", 
+  "Sanatate", 
   "Shopping", 
-  "Utilități", 
+  "Utilitati", 
   "Salariu", 
   "Altele"
 ];

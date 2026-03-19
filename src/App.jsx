@@ -218,6 +218,7 @@ export function App() {
                       </tr>
                     </thead>
 
+                    {/* Afisare tranzactii in tabel */}
                     <tbody className="divide-y divide-gray-800/50">
                       {filteredTransactions.length > 0 ? (
                         filteredTransactions.map((transaction) => (
@@ -285,6 +286,7 @@ export function App() {
         )}
       </main>
 
+      {/* Formular pentru adaugare/editare tranzactii */}
       <TransactionModal
         isOpen={isModalOpen}
         onClose={closeModal}

@@ -3,7 +3,6 @@ import { formatCurrency } from "../utils/formatCurrency";
 
 export function TransactionRow({ transaction, onDelete, onEdit }) {
   const isPositive = transaction.type === "deposit";
-
   return (
     <tr className="group hover:bg-gray-800/20 transition-colors">
       <td className="py-4">
