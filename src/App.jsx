@@ -18,7 +18,7 @@ import { TransactionModal } from "./components/transaction-modal";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 
 export function App() {
-  const [transactions, setTransactions] = useLocalStorage("finflow_data", []);
+  const [transactions, setTransactions] = useLocalStorage("finance_data", []);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingTransaction, setEditingTransaction] = useState(null);
   const [activeTab, setActiveTab] = useState("Dashboard");
