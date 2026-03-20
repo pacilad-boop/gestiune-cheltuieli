@@ -1,16 +1,98 @@
-# React + Vite
+# 💸 FinFlow - Gestiune Cheltuieli
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+FinFlow este o aplicație web dezvoltată în React care permite utilizatorilor să gestioneze tranzacții financiare: cheltuieli, facturi și depozite. Aplicația oferă funcționalități complete de tip CRUD, filtrare, sortare și persistarea datelor în localStorage.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🌐 Live Demo
 
-## React Compiler
+👉 https://gestiune-cheltuieli-77ek.vercel.app/
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🚀 Funcționalități
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- ➕ Adăugare tranzacții
+- ✏️ Editare tranzacții
+- 🗑️ Ștergere tranzacții
+- 💾 Salvare automată în localStorage
+- 🔍 Căutare după descriere
+- 🎯 Filtrare după tip (cheltuieli, facturi, depozite)
+- 🔃 Sortare după:
+  - dată
+  - sumă
+- ⚠️ Validări formular:
+  - descriere obligatorie
+  - sumă > 0
+- 🔔 Notificări toast pentru succes și eroare
+- 📱 Design responsive (mobil, tabletă, desktop)
+
+---
+
+## 🛠️ Tehnologii folosite
+
+- React (Hooks: useState, useEffect, useMemo)
+- JavaScript (map, filter)
+- Tailwind CSS
+- Vite
+- react-hot-toast
+- lucide-react
+
+---
+
+## 📦 Instalare
+
+Clonează repository-ul:
+
+```bash
+git clone https://github.com/pacilad-boop/gestiune-cheltuieli.git
+```
+
+Intră în folderul proiectului:
+
+```bash
+cd REPO-NAME
+```
+
+Instalează dependențele:
+
+```bash
+npm install package_name --legacy-peer-deps
+
+```
+
+Pornește serverul de dezvoltare:
+
+```bash
+npm run dev
+```
+
+🏗️ Build pentru producție
+
+```bash
+npm run build
+```
+🧠 Structura proiectului
+```bash
+src/
+ ├ components/
+ ├ hooks/
+ ├ utils/
+ ├ App.jsx
+ ├ main.jsx
+ └ index.css
+```
+
+📌 Note
+
+Datele sunt salvate în localStorage folosind cheia finance_data
+
+Sortarea tranzacțiilor ține cont de tip (venituri vs cheltuieli)
+
+Validările sunt implementate atât vizual (lângă câmpuri), cât și prin toast-uri
+
+Aplicația este optimizată pentru toate dimensiunile de ecran
+
+👨‍💻 Autor
+
+Proiect realizat pentru curs React.
