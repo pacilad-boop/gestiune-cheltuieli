@@ -9,10 +9,13 @@ export function TransactionModal({
   onSave,
   formData,
   setFormData,
+  errors,
+  setErrors,
 }) {
   if (!isOpen) {
     return null;
   }
+  console.log("Errors in TransactionModal:", errors); // Debug: log errors
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div
@@ -42,15 +45,27 @@ export function TransactionModal({
               <input
                 type="number"
                 step="0.01"
-                className="bg-transparent text-3xl font-bold w-full focus:outline-none text-white"
+                className={`bg-transparent text-3xl font-bold w-full focus:outline-none text-white ${
+                  errors?.amount ? "border-b border-red-500" : ""
+                }`}
                 placeholder="0.00"
                 value={formData.amount}
-                onChange={(e) =>
-                  setFormData({ ...formData, amount: e.target.value })
-                }
+                onChange={(e) => {
+                  setFormData({ ...formData, amount: e.target.value });
+
+                  if (errors?.amount) {
+                    setErrors((prev) => ({
+                      ...prev,
+                      amount: "",
+                    }));
+                  }
+                }}
                 autoFocus
               />
             </div>
+            {errors?.amount && (
+              <p className="text-red-500 text-xs mt-2">{errors.amount}</p>
+            )}
           </div>
 
           <div>
@@ -118,12 +133,27 @@ export function TransactionModal({
               <input
                 type="text"
                 placeholder="Ex: Factura curent..."
-                className="w-full bg-gray-900 border border-gray-800 rounded-xl p-3 text-sm text-white"
+                className={`w-full bg-gray-900 border rounded-xl p-3 text-sm text-white ${
+                  errors?.description ? "border-red-500" : "border-gray-800"
+                }`}
                 value={formData.description}
-                onChange={(e) =>
-                  setFormData({ ...formData, description: e.target.value })
-                }
+                onChange={(e) => {
+                  setFormData({ ...formData, description: e.target.value });
+
+                  if (errors?.description) {
+                    setErrors((prev) => ({
+                      ...prev,
+                      description: "",
+                    }));
+                  }
+                }}
               />
+
+              {errors?.description && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.description}
+                </p>
+              )}
             </div>
           </div>
 

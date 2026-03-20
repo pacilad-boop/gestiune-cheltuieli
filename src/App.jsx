@@ -15,6 +15,8 @@ import { GoalItem } from "./components/goal-item";
 import { TransactionRow } from "./components/transaction-row";
 import { TransactionModal } from "./components/transaction-modal";
 
+import toast, { Toaster } from "react-hot-toast";
+
 import { useLocalStorage } from "./hooks/useLocalStorage";
 
 export function App() {
@@ -25,6 +27,7 @@ export function App() {
   const [filterType, setFilterType] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOption, setSortOption] = useState("date_desc");
+  const [errors, setErrors] = useState({});
 
   const [formData, setFormData] = useState({
     description: "",
@@ -55,18 +58,34 @@ export function App() {
       });
     }
 
+    setErrors({});
     setIsModalOpen(true);
   }
 
   function closeModal() {
     setIsModalOpen(false);
     setEditingTransaction(null);
+    setErrors({});
   }
 
   function handleSaveTransaction(event) {
     event.preventDefault();
+    console.log("Form data on save:", formData); // Debug: log form data on save
+    const newErrors = {};
 
-    if (!formData.description.trim() || !formData.amount) {
+    if (!formData.description.trim() || formData.description.length < 3) {
+      newErrors.description =
+        "Descrierea este obligatorie si trebuie sa aiba cel putin 3 caractere";
+    }
+
+    if (formData.amount === "" || Number(formData.amount) <= 0) {
+      newErrors.amount = "Suma trebuie sa fie mai mare decat 0";
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      console.log("Validation errors:", newErrors); // Debug: log validation errors
+      toast.error("Te rog completeaza toate campurile corect");
       return;
     }
 
@@ -82,10 +101,12 @@ export function App() {
       );
 
       setTransactions(updatedTransactions);
+      toast.success("Tranzactie actualizata cu succes");
     } else {
       setTransactions([newTransaction, ...transactions]);
+      toast.success("Tranzactie adaugata cu succes");
     }
-
+    setErrors({});
     closeModal();
   }
 
@@ -95,6 +116,7 @@ export function App() {
     );
 
     setTransactions(updatedTransactions);
+    toast.success("Tranzactie stearsa cu succes");
   }
 
   const stats = useMemo(() => {
@@ -136,13 +158,19 @@ export function App() {
       return matchesFilter && matchesSearch;
     });
 
+    const getSignedAmmount = (transaction) => {
+      return transaction.type === "deposit"
+        ? transaction.amount
+        : -transaction.amount;
+    };
+
     console.log("sortOption:", sortOption);
     const sorted = [...filtered].sort((a, b) => {
       switch (sortOption) {
         case "amount_asc":
-          return a.amount - b.amount;
+          return getSignedAmmount(a) - getSignedAmmount(b);
         case "amount_desc":
-          return b.amount - a.amount;
+          return getSignedAmmount(b) - getSignedAmmount(a);
         case "date_asc":
           return new Date(a.date) - new Date(b.date);
         case "date_desc":
@@ -228,8 +256,10 @@ export function App() {
                     </div>
                     <select
                       value={sortOption}
-                      onChange={(e) => {console.log("Selected sort option:", sortOption); setSortOption(e.target.value)}}
-                      
+                      onChange={(e) => {
+                        console.log("Selected sort option:", sortOption);
+                        setSortOption(e.target.value);
+                      }}
                       className="bg-gray-900 border border-gray-800 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full sm:w-auto px-3 py-2"
                     >
                       <option value="date_desc">Cele mai noi</option>
@@ -328,6 +358,19 @@ export function App() {
         onSave={handleSaveTransaction}
         formData={formData}
         setFormData={setFormData}
+        errors={errors}
+        setErrors={setErrors}
+      />
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          style: {
+            background: "#1f2937",
+            color: "#fff",
+            borderRadius: "12px",
+            padding: "12 px 16px",
+          },
+        }}
       />
     </div>
   );
